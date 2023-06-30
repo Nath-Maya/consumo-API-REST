@@ -22,12 +22,12 @@ async function reloadImgRandom() {
   //Condicional de status solicitud
 
   if (res.status !== 200) {
-   Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Hubo un error',
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Hubo un error",
       // footer: '<a href="">Why do I have this issue?</a>'
-    })
+    });
   } else {
     const img1 = document.getElementById("img1");
     img1.src = data[0].url;
@@ -52,14 +52,14 @@ async function loadFavorites() {
   console.log("favorites");
   console.log(data);
 
-  if(res.status !== 200) {
-   Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: 'Hubo un error' + res.status + res.message,
+  if (res.status !== 200) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Hubo un error" + res.status + res.message,
       // footer: '<a href="">Why do I have this issue?</a>'
-    })
-}
+    });
+  }
 }
 
 loadFavorites();
@@ -67,3 +67,34 @@ loadFavorites();
 //? ERROR
 
 const pageError = document.getElementById("error");
+
+//!-----FUNCION GUARDAR IMG
+
+const botonFavorite = document.querySelector(".botonFavorito");
+botonFavorite.addEventListener("click", saveFavoriteImg);
+
+async function saveFavoriteImg() {
+  const res = await fetch(API_URL_FAVORITES, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      image_id: '12',
+    }),
+  });
+  const data = await res.json();
+
+  console.log("Save");
+  console.log(res);
+
+  if (res.status !== 200) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Hubo un error" + res.status + res.message,
+    });
+  }
+};
+
+saveFavoriteImg();
