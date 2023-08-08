@@ -8,6 +8,9 @@
 const API_URL_RANDOM =
   "https://api.thecatapi.com/v1/images/search?limit=2&api_key=live_4LB7tl6CsWZePrGsWmN5G5TCtQrRegwvqSHsb6yy8zpEpwGJqWhKUvkpooI4X9AF";
 
+const API_URL_FAVORITES =
+  "https://api.thecatapi.com/v1/favourites?api_key=live_4LB7tl6CsWZePrGsWmN5G5TCtQrRegwvqSHsb6yy8zpEpwGJqWhKUvkpooI4X9AF";
+
 //!------FUNCION BOTON ALEATORIO
 const botonRecarga = document.querySelector(".imgRandom");
 botonRecarga.addEventListener("click", reloadImgRandom);
@@ -22,33 +25,34 @@ async function reloadImgRandom() {
   //Condicional de status solicitud
 
   if (res.status !== 200) {
+    //mensaje de error
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Hubo un error",
-      // footer: '<a href="">Why do I have this issue?</a>'
+      text: "Hubo un error" + res.status,
     });
   } else {
     const img1 = document.getElementById("img1");
+    // const btn1 = document.getElementById("btn1");
     img1.src = data[0].url;
 
+    btn1.onclick = () => saveFavoriteImg(data[0].id);
+
     const img2 = document.getElementById("img2");
+    // const btn2 = document.getElementById("btn2");
     img2.src = data[1].url;
+
+    // btn2.onclick = () => saveFavoriteImg(data[1].id);
   }
 }
 
-reloadImgRandom();
 
 //!----- API IMG FAVORITES
 //Donde se almacenaran las imagenes guardadas como favoritos.
 
-const API_URL_FAVORITES =
-  "https://api.thecatapi.com/v1/favourites?limit=2&api_key=live_4LB7tl6CsWZePrGsWmN5G5TCtQrRegwvqSHsb6yy8zpEpwGJqWhKUvkpooI4X9AF";
-
 async function loadFavorites() {
-  const res = await fetch(API_URL_RANDOM);
+  const res = await fetch(API_URL_FAVORITES);
   const data = await res.json();
-
   console.log("favorites");
   console.log(data);
 
@@ -56,13 +60,11 @@ async function loadFavorites() {
     Swal.fire({
       icon: "error",
       title: "Oops...",
-      text: "Hubo un error" + res.status + res.message,
-      // footer: '<a href="">Why do I have this issue?</a>'
+      text: "Hubo un error",
     });
   }
 }
 
-loadFavorites();
 
 //? ERROR
 
@@ -70,31 +72,29 @@ const pageError = document.getElementById("error");
 
 //!-----FUNCION GUARDAR IMG
 
-const botonFavorite = document.querySelector(".botonFavorito");
-botonFavorite.addEventListener("click", saveFavoriteImg);
-
 async function saveFavoriteImg() {
   const res = await fetch(API_URL_FAVORITES, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      image_id: '12',
+      image_id: 'dje',
     }),
   });
-  const data = await res.json();
 
-  console.log("Save");
-  console.log(res);
+    const data = await res.json();
+    console.log("Save");
+    console.log(data);
 
-  if (res.status !== 200) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Hubo un error" + res.status + res.message,
-    });
+    if (res.status !== 200) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Hubo un error" + res.status + data.message,
+      });
+    }
   }
-};
 
-saveFavoriteImg();
+loadFavorites();
+reloadImgRandom();
