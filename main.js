@@ -34,10 +34,18 @@ async function reloadImgRandom() {
     });
   } else {
     const img1 = document.getElementById("img1");
-    img1.src = data[0].url;
-
     const img2 = document.getElementById("img2");
+
+    const btn1 = document.getElementById('btn1');
+    const btn2 = document.getElementById('btn2');
+
+    img1.src = data[0].url;
     img2.src = data[1].url;
+
+    //cada boton tendra su evento para extraer el id de cada imagen. 
+    btn1.onclick = () => saveFavoriteMichi(data[0].id);
+    btn2.onclick = () => saveFavoriteMichi(data[1].id)
+  
   }
 }
 
