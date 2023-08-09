@@ -58,13 +58,19 @@ async function loadFavorites() {
     });
   } else {
     data.forEach( michi  => {
-      const michiFav = document.createElement('article');
-      michiFav.innerHTML = `
-      <img id="img1" width="500px" src="" alt="Foto img favorita">
-      <button>ELIMINAR</button>
-      `
-      document.querySelector("#favoriteMichis").appendChild(michiFav);
+      const section = document.getElementById('favoriteMichis');
+      const article = document.createElement('article');
+      const img = document.createElement('img');
+      const btn = document.createElement('button');
+      const btnText = document.createTextNode('sacar el michi de favoritos');
+
       img.src = michi.image.url;
+      img.width = 150;
+      btn.appendChild(btnText);
+      article.appendChild(img);
+      article.appendChild(btn);
+      section.appendChild(article);
+
     });
   
   }
