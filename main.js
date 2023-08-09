@@ -12,7 +12,7 @@ const API_URL_FAVORITES =
   "https://api.thecatapi.com/v1/favourites?api_key=live_4LB7tl6CsWZePrGsWmN5G5TCtQrRegwvqSHsb6yy8zpEpwGJqWhKUvkpooI4X9AF";
 
 
-//!------FUNCION BOTON ALEATORIO
+//!------FUNCION GENERAR IMAGENES ALEATORIAS DE GATITOS
 const botonRecarga = document.querySelector(".imgRandom");
 botonRecarga.addEventListener("click", reloadImgRandom);
 
@@ -80,16 +80,16 @@ async function loadFavorites() {
 
 const pageError = document.getElementById("error");
 
-//!-----FUNCION GUARDAR IMG
+//!-----FUNCION GUARDAR IMAGEN DE GATITO FAVORITO
 
-async function saveFavoriteImg(id) {
+async function saveFavoriteMichi(id) {
   const res = await fetch(API_URL_FAVORITES, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      image_id: "id",
+      image_id: id,
     }),
   });
 
