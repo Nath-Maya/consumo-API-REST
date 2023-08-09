@@ -11,6 +11,9 @@ const API_URL_RANDOM =
 const API_URL_FAVORITES =
   "https://api.thecatapi.com/v1/favourites?api_key=live_4LB7tl6CsWZePrGsWmN5G5TCtQrRegwvqSHsb6yy8zpEpwGJqWhKUvkpooI4X9AF";
 
+const API_URL_FAVORITES_DELETE = (id) =>
+  `https://api.thecatapi.com/v1/favourites/${id}?api_key=live_4LB7tl6CsWZePrGsWmN5G5TCtQrRegwvqSHsb6yy8zpEpwGJqWhKUvkpooI4X9AF`;
+//Se puede utilizar template para introducir contenido dinamico, en este caso el id.
 
 //!------FUNCION GENERAR IMAGENES ALEATORIAS DE GATITOS
 const botonRecarga = document.querySelector(".imgRandom");
@@ -36,16 +39,15 @@ async function reloadImgRandom() {
     const img1 = document.getElementById("img1");
     const img2 = document.getElementById("img2");
 
-    const btn1 = document.getElementById('btn1');
-    const btn2 = document.getElementById('btn2');
+    const btn1 = document.getElementById("btn1");
+    const btn2 = document.getElementById("btn2");
 
     img1.src = data[0].url;
     img2.src = data[1].url;
 
-    //cada boton tendra su evento para extraer el id de cada imagen. 
+    //cada boton tendra su evento para extraer el id de cada imagen.
     btn1.onclick = () => saveFavoriteMichi(data[0].id);
-    btn2.onclick = () => saveFavoriteMichi(data[1].id)
-  
+    btn2.onclick = () => saveFavoriteMichi(data[1].id);
   }
 }
 
@@ -65,22 +67,23 @@ async function loadFavorites() {
       text: "Hubo un error",
     });
   } else {
-    data.forEach( michi  => {
-      const section = document.getElementById('favoriteMichis');
-      const article = document.createElement('article');
-      const img = document.createElement('img');
-      const btn = document.createElement('button');
-      const btnText = document.createTextNode('sacar el michi de favoritos');
+    data.forEach((michi) => {
+      const section = document.getElementById("favoriteMichis");
+      const article = document.createElement("article");
+      const img = document.createElement("img");
+      const btn = document.createElement("button");
+      const btnText = document.createTextNode("Sacar el michi de favoritos");
 
       img.src = michi.image.url;
-      img.width = 150;
+      img.width = 150; //Ancho fijo de las imagenes. 
       btn.appendChild(btnText);
+
+      btn.onclick = () => deleteFavoriteMichi(michi.id);
+
       article.appendChild(img);
       article.appendChild(btn);
       section.appendChild(article);
-
     });
-  
   }
 }
 
@@ -111,6 +114,29 @@ async function saveFavoriteMichi(id) {
       title: "Oops...",
       text: "Hubo un error" + res.status + data.message,
     });
+  } else {
+    console.log("Michi guardado de favoritos");
+  }
+}
+
+//! FUNCION PARA ELIMINAR IMAGENES DE FAVORITOS.
+
+async function deleteFavoriteMichi(id) {
+  const res = await fetch(API_URL_FAVORITES_DELETE(id), {
+    method:'DELETE',
+  });
+  const data = await res.json();
+  console.warn("Delete");
+  console.log(data);
+
+  if (res.status !== 200) {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Hubo un error" + res.status + data.message,
+    });
+  } else {
+    console.log("Michi eliminado de favoritos");
   }
 }
 
