@@ -116,6 +116,7 @@ async function saveFavoriteMichi(id) {
     });
   } else {
     console.log("Michi guardado de favoritos");
+    loadFavorites(); //Llamo la funcion para volver a recargar la pagina.
   }
 }
 
@@ -137,6 +138,7 @@ async function deleteFavoriteMichi(id) {
     });
   } else {
     console.log("Michi eliminado de favoritos");
+    loadFavorites(); //Llamo la funcion para volver a recargar la pagina.
   }
 }
 
