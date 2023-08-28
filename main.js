@@ -17,6 +17,11 @@ const API_URL_FAVORITES_DELETE = (id) =>
 
 const API_URL_UPLOAD = "https://api.thecatapi.com/v1/images/upload";
 
+//? ERROR
+
+const pageError = document.getElementById("error");
+
+
 //!------FUNCION GENERAR IMAGENES ALEATORIAS DE GATITOS
 const botonRecarga = document.querySelector(".imgRandom");
 botonRecarga.addEventListener("click", loadImageRandom);
@@ -32,11 +37,7 @@ async function loadImageRandom() {
 
   if (res.status !== 200) {
     //mensaje de error
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Hubo un error" + res.status,
-    });
+    pageError.innerHTML = "Hubo un error: " + res.status;
   } else {
     const img1 = document.getElementById("img1");
     const img2 = document.getElementById("img2");
@@ -69,11 +70,7 @@ async function loadImageFavourite() {
   console.log(data);
 
   if (res.status !== 200) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Hubo un error",
-    });
+    pageError.innerHTML = "Hubo un error: " + res.status;
   } else {
     data.forEach((michi) => {
       const section = document.getElementById("favoriteMichis");
@@ -95,9 +92,7 @@ async function loadImageFavourite() {
   }
 }
 
-//? ERROR
 
-const pageError = document.getElementById("error");
 
 //!-----FUNCION GUARDAR IMAGEN DE GATITO FAVORITO
 
@@ -119,11 +114,7 @@ async function saveImageFavorite(id) {
   console.log(data);
 
   if (res.status !== 200) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Hubo un error" + res.status + data.message,
-    });
+    pageError.innerHTML = "Hubo un error: " + res.status;
   } else {
     console.log("Imagen guardado de favoritos");
     loadImageFavourite(); //Llamo la funcion para volver a recargar la pagina.
@@ -145,11 +136,7 @@ async function deleteImageFavourite(id) {
   console.log(data);
 
   if (res.status !== 200) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Hubo un error" + res.status + data.message,
-    });
+    pageError.innerHTML = "Hubo un error: " + res.status;
   } else {
     console.log("Imagen eliminado de favoritos");
     loadImageFavourite(); //Llamo la funcion para volver a recargar la pagina.
@@ -158,7 +145,7 @@ async function deleteImageFavourite(id) {
 
 //!FUNCION PARA SUBIR FOTO
 
-async function uploadMichiPhoto() {
+async function uploadImage() {
   const form = document.getElementById("uploadingForm");
   const formData = new FormData(form);
 
@@ -177,11 +164,7 @@ async function uploadMichiPhoto() {
   const data = await res.json();
 
   if (res.status !== 201) {
-    Swal.fire({
-      icon: "error",
-      title: "Oops...",
-      text: "Hubo un error" + res.status + data.message,
-    });
+    pageError.innerHTML = "Hubo un error: " + res.status;
     console.log({ data });
   } else {
     console.log("foto subida de michi");
