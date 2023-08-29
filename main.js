@@ -5,6 +5,14 @@
 //!------RECARGA API
 // API: https://documenter.getpostman.com/view/5578104/RWgqUxxh#intro
 
+const api = axios.create({
+  baseURL: "https://api.thecatapi.com/v1/",
+});
+
+//Por defecto se colocara el API KEY
+api.defaults.headers.common["X-API-KEY"] =
+  "live_4LB7tl6CsWZePrGsWmN5G5TCtQrRegwvqSHsb6yy8zpEpwGJqWhKUvkpooI4X9AF";
+
 const API_URL_RANDOM =
   "https://api.thecatapi.com/v1/images/search?limit=2&api_key=live_4LB7tl6CsWZePrGsWmN5G5TCtQrRegwvqSHsb6yy8zpEpwGJqWhKUvkpooI4X9AF";
 
@@ -20,7 +28,6 @@ const API_URL_UPLOAD = "https://api.thecatapi.com/v1/images/upload";
 //? ERROR
 
 const pageError = document.getElementById("error");
-
 
 //!------FUNCION GENERAR IMAGENES ALEATORIAS DE GATITOS
 const botonRecarga = document.querySelector(".imgRandom");
@@ -92,29 +99,17 @@ async function loadImageFavourite() {
   }
 }
 
-
-
 //!-----FUNCION GUARDAR IMAGEN DE GATITO FAVORITO
 
 async function saveImageFavorite(id) {
-  const res = await fetch(API_URL_FAVORITES, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-KEY":
-        "live_4LB7tl6CsWZePrGsWmN5G5TCtQrRegwvqSHsb6yy8zpEpwGJqWhKUvkpooI4X9AF",
-    },
-    body: JSON.stringify({
-      image_id: id,
-    }),
+  const { data, status } = await api.post("/favourites", {
+    image_id: id,
   });
 
-  const data = await res.json();
   console.log("Guardar");
-  console.log(data);
 
-  if (res.status !== 200) {
-    pageError.innerHTML = "Hubo un error: " + res.status;
+  if (status !== 200) {
+    pageError.innerHTML = "Hubo un error: " + status + data.message;
   } else {
     console.log("Imagen guardado de favoritos");
     loadImageFavourite(); //Llamo la funcion para volver a recargar la pagina.
@@ -174,5 +169,5 @@ async function uploadImage() {
   }
 }
 
-loadImageFavourite();
 loadImageRandom();
+loadImageFavourite();

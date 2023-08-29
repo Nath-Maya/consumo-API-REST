@@ -25,6 +25,8 @@ _Curso Consumo de API REST_
 
 📝  Asincronismo, promesas y fetch.
 
+📝  Axios: Libreria para consumo de API.
+
 
 <!-- <h3> 🛠 &nbsp;Tecnologías & Lenguajes :</h3>
 
